@@ -35,6 +35,22 @@ public class InputReader : IInputReader<TileBase>
 
     private TileBase[][] ReadInputTileMap()
     {
-        throw new NotImplementedException();
+        InputImageParameters imagerParameters = new InputImageParameters(_inputTileMap);
+        return CreateTileBaseGrid(imagerParameters);
+    }
+
+    private TileBase[][] CreateTileBaseGrid(InputImageParameters imagerParameters)
+    {
+        TileBase[][] gridOfInputTiles = null;
+        gridOfInputTiles = MyCollectionExtension.CreateJaggedArray<TileBase[][]>(imagerParameters.Height, imagerParameters.Width);
+        for (int row = 0; row < imagerParameters.Height; ++row)
+        {
+            for (int col = 0; col < imagerParameters.Width; ++col)
+            {
+                gridOfInputTiles[row][col] = imagerParameters.StackOftiles.Dequeue().Tile;
+            }
+        }
+
+        return gridOfInputTiles;
     }
 }
